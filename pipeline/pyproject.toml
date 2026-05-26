@@ -5,6 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "jupyter>=1.1.1",
     "pandas>=3.0.3",
+    "psycopg[binary,pool]>=3.3.4",
     "pyarrow>=24.0.0",
+    "sqlalchemy>=2.0.50",
+    "tqdm>=4.67.3",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "pgcli>=4.4.0",
 ]
