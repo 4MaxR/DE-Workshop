@@ -6,7 +6,6 @@ crash.log
 
 # Secrets
 .env
-*.json
 
 # Python
 .venv/
@@ -19,3 +18,8 @@ Thumbs.db
 
 # Data
 *.parquet
+
+#kestra
+gcp-creds.json
+service-account.json
+credentials.json
