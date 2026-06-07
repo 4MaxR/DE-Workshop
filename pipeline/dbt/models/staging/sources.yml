@@ -1,27 +1,105 @@
-version: 2
-
 sources:
-  - name: raw_data
-    description: "Raw data sources for NYC taxi rides"
-    database: datatalkclub-498309
-    schema: zoomcamp
+  - name: raw
+    description: Raw taxi trip data from NYC TLC
+    database: |
+      {%- if target.type == 'bigquery' -%}
+        {{ env_var('GCP_PROJECT_ID', 'datatalkclub-498309') }}
+      {%- else -%}
+        taxi_rides_ny
+      {%- endif -%}
+    schema: |
+      {%- if target.type == 'bigquery' -%}
+        zoomcamp
+      {%- else -%}
+        prod
+      {%- endif -%}
     tables:
-      - name: yellow_tripdata_partitioned
       - name: green_tripdata
+        description: Raw green taxi trip records
+        columns:
+          - name: vendorid
+            description: "Taxi technology provider (1 = Creative Mobile Technologies, 2 = VeriFone Inc.) - Note: Raw data may contain nulls, filtered in staging"
+          - name: lpep_pickup_datetime
+            description: Date and time when the meter was engaged
+          - name: lpep_dropoff_datetime
+            description: Date and time when the meter was disengaged
+          - name: passenger_count
+            description: Number of passengers in the vehicle
+          - name: trip_distance
+            description: Trip distance in miles
+          - name: pulocationid
+            description: TLC Taxi Zone where the meter was engaged
+          - name: dolocationid
+            description: TLC Taxi Zone where the meter was disengaged
+          - name: ratecodeid
+            description: Rate code (1=Standard, 2=JFK, 3=Newark, 4=Nassau/Westchester, 5=Negotiated, 6=Group)
+          - name: store_and_fwd_flag
+            description: Trip record held in vehicle memory (Y/N)
+          - name: payment_type
+            description: Payment method (1=Credit card, 2=Cash, 3=No charge, 4=Dispute, 5=Unknown, 6=Voided)
+          - name: fare_amount
+            description: Time and distance fare
+          - name: extra
+            description: Miscellaneous extras and surcharges
+          - name: mta_tax
+            description: MTA tax
+          - name: tip_amount
+            description: Tip amount (credit card only)
+          - name: tolls_amount
+            description: Total tolls paid
+          - name: improvement_surcharge
+            description: Improvement surcharge
+          - name: total_amount
+            description: Total amount charged
+          - name: trip_type
+            description: Trip type (1=Street-hail, 2=Dispatch)
+          - name: ehail_fee
+            description: E-hail fee
 
+        config:
+          loaded_at_field: lpep_pickup_datetime
+      - name: yellow_tripdata_partitioned
+        description: Raw yellow taxi trip records
+        columns:
+          - name: vendorid
+            description: "Taxi technology provider (1 = Creative Mobile Technologies, 2 = VeriFone Inc.) - Note: Raw data may contain nulls, filtered in staging"
+          - name: tpep_pickup_datetime
+            description: Date and time when the meter was engaged
+          - name: tpep_dropoff_datetime
+            description: Date and time when the meter was disengaged
+          - name: passenger_count
+            description: Number of passengers in the vehicle
+          - name: trip_distance
+            description: Trip distance in miles
+          - name: pulocationid
+            description: TLC Taxi Zone where the meter was engaged
+          - name: dolocationid
+            description: TLC Taxi Zone where the meter was disengaged
+          - name: ratecodeid
+            description: Rate code (1=Standard, 2=JFK, 3=Newark, 4=Nassau/Westchester, 5=Negotiated, 6=Group)
+          - name: store_and_fwd_flag
+            description: Trip record held in vehicle memory (Y/N)
+          - name: payment_type
+            description: Payment method (1=Credit card, 2=Cash, 3=No charge, 4=Dispute, 5=Unknown, 6=Voided)
+          - name: fare_amount
+            description: Time and distance fare
+          - name: extra
+            description: Miscellaneous extras and surcharges
+          - name: mta_tax
+            description: MTA tax
+          - name: tip_amount
+            description: Tip amount (credit card only)
+          - name: tolls_amount
+            description: Total tolls paid
+          - name: improvement_surcharge
+            description: Improvement surcharge
+          - name: total_amount
+            description: Total amount charged
+        config:
+          loaded_at_field: tpep_pickup_datetime
       - name: taxi_zone_lookup
-        description: "Taxi zone lookup data from a public CSV"
-        external:
-          location: 'gs://your-bucket-name/path/to/taxi_zone_lookup.csv' # Must be GCS URI
-          options:
-            format: csv
-            skip_leading_rows: 1
-        columns: # Define column names & types
-          - name: LocationID
-            data_type: integer
-          - name: Borough
-            data_type: string
-          - name: Zone
-            data_type: string
-          - name: service_zone
-            data_type: string
+        description: NYC Taxi zone lookup table
+    config:
+      freshness:
+        warn_after: {count: 24, period: hour}
+        error_after: {count: 48, period: hour}
