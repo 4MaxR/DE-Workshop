@@ -31,7 +31,7 @@ PARTITION BY DATE(tpep_pickup_datetime) AS
 SELECT *
 FROM datatalkclub-498309.zoomcamp.external_yellow_tripdata;
 
-# Check partitioned
+-- Check partitioned
 SELECT
   MIN(DATE(tpep_pickup_datetime)) AS min_date,
   MAX(DATE(tpep_pickup_datetime)) AS max_date,

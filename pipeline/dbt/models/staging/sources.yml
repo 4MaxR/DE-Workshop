@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: raw_data
+    description: "Raw data sources for NYC taxi rides"
+    database: datatalkclub-498309
+    schema: zoomcamp
+    tables:
+      - name: yellow_tripdata_partitioned
+      - name: green_tripdata
+
+      - name: taxi_zone_lookup
+        description: "Taxi zone lookup data from a public CSV"
+        external:
+          location: 'gs://your-bucket-name/path/to/taxi_zone_lookup.csv' # Must be GCS URI
+          options:
+            format: csv
+            skip_leading_rows: 1
+        columns: # Define column names & types
+          - name: LocationID
+            data_type: integer
+          - name: Borough
+            data_type: string
+          - name: Zone
+            data_type: string
+          - name: service_zone
+            data_type: string

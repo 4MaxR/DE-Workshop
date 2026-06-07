@@ -6,6 +6,7 @@ crash.log
 
 # Secrets
 .env
+.vscode/
 
 # Python
 .venv/
@@ -23,3 +24,9 @@ Thumbs.db
 gcp-creds.json
 service-account.json
 credentials.json
+
+#dbt
+target/
+dbt_packages/
+logs/
+dbt_internal_packages/

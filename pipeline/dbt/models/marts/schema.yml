@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: dim_vendors
+    description: "This table contains vendor information."
+    columns:
+      - name: vendor_id
+        description: "The unique identifier for each vendor."
+      - name: vendor_name
+        description: "The name of the vendor."
+      - name: vendor_address
+        description: "The address of the vendor."
+      - name: vendor_phone
+        description: "The contact phone number for the vendor."
+      - name: created_at
+        description: "The timestamp when the vendor record was created."
+      - name: updated_at
+        description: "The timestamp when the vendor record was last updated."
+
+  - name: fct_trips
+    description: "Fact table containing individual taxi/ride trips with metrics"
+    columns:
+      - name: trip_id
+        tests:
+          - unique
+          - not_null
+      - name: trip_distance
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              strictly: true
