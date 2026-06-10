@@ -20,6 +20,8 @@ columns:
       - name: not_null
   - name: dropoff_datetime
     type: timestamp
+    checks:
+      - name: not_null
   - name: pickup_location_id
     type: integer
   - name: dropoff_location_id
@@ -36,6 +38,8 @@ columns:
     type: varchar
   - name: fare_amount
     type: double
+    checks:
+      - name: non_negative
   - name: extra
     type: double
   - name: mta_tax
@@ -110,3 +114,4 @@ FROM deduplicated d
 LEFT JOIN ingestion.payment_lookup p
     ON d.payment_type = p.payment_type_id
 WHERE d.row_num = 1
+AND d.fare_amount >= 0

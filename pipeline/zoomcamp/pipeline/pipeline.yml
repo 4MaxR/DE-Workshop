@@ -27,12 +27,26 @@ default_connections:
 # - In SQL/YAML assets: reference as `{{ var.my_variable }}`.
 # - In Python assets: read JSON from env var `BRUIN_VARS`.
 variables:
-  # TODO: Define `taxi_types` as an array of strings with a sensible default.
   taxi_types:
-    type: array  # should be: array
+    type: array
     items:
-      type: string  # should be: string
-    default: ["yellow"]  # e.g. ["yellow", "green"]
-#   other_string_var: (optional) Add your own variable and use it in both Python and SQL assets.
-#     type: string
-#     default: "my_value"
+      type: string
+    default: ["yellow", "green"]
+  year:
+    type: integer                
+    default: 2023
+  month:
+    type: integer                
+    default: 1
+
+# Optional: environment‑specific overrides (if your Bruin version supports `environments`, uncomment below)
+# If this still causes a warning, remove or comment out the block.
+# environments:
+#   default:
+#     variables:
+#       year: 2023
+#       month: 1
+#   prod:
+#     variables:
+#       year: 2024
+#       month: 1
