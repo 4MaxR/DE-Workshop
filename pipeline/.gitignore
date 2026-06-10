@@ -19,6 +19,8 @@ Thumbs.db
 
 # Data
 *.parquet
+*.duckdb
+*.db
 
 #kestra
 gcp-creds.json
@@ -30,3 +32,11 @@ target/
 dbt_packages/
 logs/
 dbt_internal_packages/
+
+#bruin 
+.bruin.yml
+logs/runs
+logs/*.log
+__pycache__/
+*.py[cod]
+

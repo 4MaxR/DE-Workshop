@@ -1,0 +1,13 @@
+.bruin.yml
+.aider*
+
+logs/runs
+logs/*.log
+__pycache__/
+*.py[cod]
+info.md
+logs/queries
+pipeline/zoomcamp/NUL
+
+*.duckdb
+*.db
