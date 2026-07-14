@@ -256,6 +256,3 @@ Then execute the script as shown above.
 - The default data source (GitHub releases) is stable and used by the DataTalksClub course.
 
 ---
-```
-
-You can copy this entire block into your `README.md` file. It preserves your original Docker troubleshooting sections and adds the comprehensive script documentation at the end.
